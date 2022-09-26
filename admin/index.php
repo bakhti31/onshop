@@ -41,6 +41,8 @@ if (@$_GET['done']) {
 	if (!$admin->make_history($id)) {
 		echo "Gagal Menyelesaikan Pesanan";
 	}
+	header('Location: /onshop/admin/?orders=1');
+	exit();
 }
 
 
@@ -134,7 +136,7 @@ if (@$_POST['product']) {
 							<td><?=$row['address']?></td>
 							<td><?=$row['note']?></td>
 							<td><a href="?hapus=<?=$row['order_id']?>" class="btn btn-danger">Hapus </a></td>
- 								<td><a href="?done=<?=$row['order_id']?>" class="btn btn-warning">Ubah</a></td>
+ 								<td><a href="?done=<?=$row['order_id']?>" class="btn btn-primary">Selesai</a></td>
 						</tr>
 						<?php endwhile ?>
  						<!-- <tr>
@@ -196,32 +198,35 @@ if (@$_POST['product']) {
 					  </div>
 					  <label for="url">Atau Dengan Url Gambar</label>
 					  <input type="text" class="form-control mb-3" id="url" name="url">
-					  <button type="submit" class="btn btn-primary mb-2">Tambah</button>
+					  <button type="submit" class="btn btn-primary mb-2" name='add' value="Tambah">Tambah</button>
 					</form>
 
 				<?php elseif(@$_GET['edit']): ?>
+					<?php foreach ($admin->show_item($_GET['edit']) as $key): ?>
 					<form class="form" method="post" enctype="multipart/form-data">
 					  <input type="hidden" disabled value="<?=$_GET['edit'];?>" name="id">
 
 					  <label class="sr-only" for="inlineFormInputName2">Nama Produk</label>
-					  <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Nama Produk" name="product" value="">
+					  <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Nama Produk" name="product" value="<?php echo $key['name'] ?>">
 
 					  <label class="sr-only" for="inlineFormInputGroupUsername2">Harga Produk</label>
 					  <div class="input-group mb-2 mr-sm-2">
 					    <div class="input-group-prepend">
 					      <div class="input-group-text">Rp.</div>
 					    </div>
-					    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Harga Produk" name="price" value="">
+					    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Harga Produk" name="price" value="<?php echo $key['price'] ?>">
 					  </div>
 					  <div class="mb-2">
 					    <label for="formFileMultiple" class="form-label">Gambar Produk</label>
+					    <img src="<?=strpos($key['image'], 'https')===0?$key['image']:"../images/".$key['item_id']."/".$key['image']?>" alt="" class="rounded img-thumbnail img-fluid">
+					    <label for="formFileMultiple">Ganti dengan gambar</label>
 					    <input class="form-control" type="file" id="formFileMultiple" name="img">
 					  </div>
 					  <label for="url">Atau Dengan Url Gambar</label>
-					  <input type="text" class="form-control mb-3" id="url" placeholder="https://avatars.githubusercontent.com/u/27219734" name="url" value="">
-					  <button type="submit" class="btn btn-primary mb-2">Tambah</button>
+					  <input type="text" class="form-control mb-3" id="url" placeholder="https://avatars.githubusercontent.com/u/27219734" name="url" value="<?=strpos($key['image'], 'https')===0?$key['image']:""?>">
+					  <button type="submit" class="btn btn-primary mb-2" name="update" value="Update">Update</button>
 					</form>
-
+					<?php endforeach ?>
 
 
 
