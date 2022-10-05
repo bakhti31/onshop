@@ -43,7 +43,9 @@ class SQLnya
 	public function update($table,$set, $where)
 	{
 		$sql = "UPDATE $table SET $set WHERE $where";
+		// echo $sql;
 		$query = $this->conn->query($sql);
+		// echo $this->conn->error;
 		return $query;
 	}
 }
@@ -90,10 +92,10 @@ class Admin extends SQLnya
 			is_admin = 1
 			");
 		return ($result->num_rows < 1)?False:True;
-		// if ($result->num_rows < 1) {
-		// 	return False;
-		// }
-		// return True;
+	}
+	public function show_item($id)
+	{
+		return $this->select("items", "WHERE item_id=$id");
 	}
 	public function list_product()
 	{
@@ -117,7 +119,7 @@ class Admin extends SQLnya
 	}
 	public function make_history($id)
 	{
-		return $this->update("orders","''status' = 1","order_id = $id");
+		return $this->update("orders","`status` = '1'","order_id = $id ");
 	}
 	public function update_item($id, $name, $price, $image)
 	{

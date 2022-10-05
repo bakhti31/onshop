@@ -250,7 +250,7 @@ if (@$_POST['product']) {
  								<td><?=$row['item_id']?></td>
  								<td><?=$row['name']?></td>
  								<td>Rp. <?=$row['price']?></td>
- 								<td><img src="<?=strpos($row['image'], 'https')===0?$row['image']:"../images/".$row['item_id']."/".$row['image']?>" alt="" class="img-thumbnail rounded"></td>
+ 								<td><img src="<?=strpos($row['image'], 'https')===0?$row['image']:"../images/".$row['item_id']."/".$row['image']?>" style="max-height: 150px; max-width: 150px;" alt="" class="img-thumbnail rounded"></td>
  								<td><a href="?delete=<?=$row['item_id']?>" class="btn btn-danger">Hapus </a></td>
  								<td><a href="?edit=<?=$row['item_id']?>" class="btn btn-warning">Ubah</a></td>
  							</tr>
